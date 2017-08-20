@@ -3,7 +3,6 @@ package main
 import (
 	"os"
 	"time"
-	"util"
 )
 
 func main() {
@@ -11,11 +10,20 @@ func main() {
 	args := os.Args
 	if len(args) > 1 {
 		hostIP := args[1]
-		util.RunGuest(hostIP)
+		RunGuest(hostIP)
 	} else {
-		listenIP := util.GetLocalNetworkIP()
-		util.RunHost(listenIP + ":" + listenPort)
+		listenIP := GetLocalNetworkIP()
+		RunHost(listenIP + ":" + listenPort)
 	}
+}
+
+func readArgs() ([]string, error) {
+  args := os.Args
+  if len(args) > 1 && len(args[1]) > 15 {
+    err := errors.New("Too many arguments")
+    return args, err
+  }
+  return args, nil
 }
 
 func getListenPort() string {
