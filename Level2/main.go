@@ -6,6 +6,12 @@ import (
 )
 
 func main() {
+	args, err := readArgs()
+	  if err != nil{
+	    fmt.Println(err)
+	    os.Exit(1)
+	  } 
+
 	listenPort := "8080"
 	args := os.Args
 	if len(args) > 1 {
