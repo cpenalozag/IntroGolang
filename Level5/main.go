@@ -1,12 +1,22 @@
 package main
 
-import(
+import (
   "Level5/lib"
+  "sync"
 )
 
 func main() {
-  notifiers := lib.GetAllConnections()
-  for _, c := range notifiers {
-    c.Notify()
+  var wg sync.WaitGroup
+
+  connections := lib.GetAllConnections()
+  connectionCount := len(connections)
+
+  wg.Add(connectionCount)
+
+  for _, c := range connections {
+    go c.Notify(&wg)
+
   }
+  wg.Wait()
+
 }
